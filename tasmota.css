@@ -1,0 +1,110 @@
+/*
+/*
+ *
+ * MMM-Tasmota
+ *
+ * made 2020 by lavolp3 (Dirk Kovert)
+ * MIT Licensed.
+ *
+ * Custom here your css module
+ *
+ */
+
+.MMM-Tasmota .modwrapper {
+    display: flex;
+    flex-wrap : wrap;
+    justify-content : space-around;
+}
+
+
+.MMM-Tasmota .topic-wrapper {
+    margin: 5px 15px 5px 5px;
+}
+
+.MMM-Tasmota .topic-data {
+    margin: 10px 5px;
+}
+
+.MMM-Tasmota .tasmota-data-td {
+    padding: 5px 10px 5px 5px;
+    width: 110px;
+    text-align: right;
+}
+
+.MMM-Tasmota .tasmota-value-td {
+    text-align: left;
+}
+
+.MMM-Tasmota .tasmota-switch {
+    float: right;
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 34px;
+}
+
+/*** SWITCHES ***/
+
+/* Hide default HTML checkbox */
+.MMM-Tasmota .tasmota-switch input {
+    opacity: 0;
+    width: 0px;
+    height: 0px;
+}
+
+/* The slider */
+.MMM-Tasmota .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 30px;
+    right: 0;
+    bottom: 0;
+    background-color: #f00;
+    border: 3px solid white;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+.MMM-Tasmota .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 3px;
+    bottom: 1px;
+    background-color: white;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+.MMM-Tasmota input:checked + .slider {
+    background-color: #0f0;
+}
+
+.MMM-Tasmota input:focus + .slider {
+    box-shadow: 0 0 1px #0f0;
+}
+
+.MMM-Tasmota input:checked + .slider:before {
+    -webkit-transform: translateX(24px);
+    -ms-transform: translateX(24px);
+    transform: translateX(24px);
+}
+
+/* Rounded sliders */
+.MMM-Tasmota .slider.round {
+    border-radius: 34px;
+}
+
+.MMM-Tasmota .slider.round:before {
+    border-radius: 50%;
+}
+
+
+/*** GRAPH ***/
+
+.MMM-Tasmota .tasmota-graph {
+    margin: 20px auto;
+    #background-color: #666;
+}

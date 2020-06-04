@@ -1,0 +1,16 @@
+{
+  "name": "mmm-tasmota",
+  "version": "1.0.0",
+  "description": "This is a module to help developers to start building their own modules for the [MagicMirror](https://github.com/MichMich/MagicMirror).",
+  "main": "MMM-Tasmota.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^2.9.3",
+    "jsonfile": "^6.0.1",
+    "mqtt": "^3.0.0"
+  }
+}
