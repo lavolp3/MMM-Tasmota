@@ -20,6 +20,7 @@ module.exports = NodeHelper.create({
         jsonfile.readFile(file, function (err, obj) {
             if (err) {
                 console.error(err);
+                self.tasmotaData = {};
             } else {
                 //this.log(obj);
                 self.tasmotaData = obj;
@@ -90,22 +91,22 @@ module.exports = NodeHelper.create({
             var topic = cmdString[len-2];
             var cmd = cmdString[len-1];
             var jsonData = JSON.parse(strArray[4]);
-            /*{
-					"Time": "2020-05-09T22:41:48",
-					"ENERGY": {
-						"TotalStartTime": "2020-02-26T18:23:29",
-						"Total": 115.352,
-						"Yesterday": 0.512,
-						"Today": 1.871,
-						"Period": 0,
-						"Power": 1,
-						"ApparentPower": 4,
-						"ReactivePower": 4,
-						"Factor": 0.28,
-						"Voltage": 226,
-						"Current": 0.016,
-						"Average": 1.58
-					}*/
+                /*{
+                "Time": "2020-05-09T22:41:48",
+                "ENERGY": {
+                    "TotalStartTime": "2020-02-26T18:23:29",
+                    "Total": 115.352,
+                    "Yesterday": 0.512,
+                    "Today": 1.871,
+                    "Period": 0,
+                    "Power": 1,
+                    "ApparentPower": 4,
+                    "ReactivePower": 4,
+                    "Factor": 0.28,
+                    "Voltage": 226,
+                    "Current": 0.016,
+                    "Average": 1.58
+                }*/
             if (!tData.hasOwnProperty(prefix)) { tData[prefix] = {}; }
             if (!tData[prefix].hasOwnProperty(topic)) { tData[prefix][topic] = {};}
             if (!tData[prefix][topic].hasOwnProperty(cmd)) {

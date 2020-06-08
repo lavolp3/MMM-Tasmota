@@ -19,6 +19,7 @@ Module.register("MMM-Tasmota", {
                 name: 'Dummy',
                 teleInterval: 300,
                 chartInterval: 24,
+                chartColor: 'red'
             }
         ],
         subPrefix: 'stat/',
@@ -86,7 +87,7 @@ Module.register("MMM-Tasmota", {
                 topicWrapper.className = "topic-wrapper";
                 topicWrapper.style.width = this.config.topicWidth + "px";
                     var table = document.createElement("table");
-                    table.className = "topic-data";
+                    table.className = "topic-data small";
                         var headerRow = document.createElement("tr");
                             var header = document.createElement("th");
                             header.className = "topic-data-header";
@@ -113,7 +114,7 @@ Module.register("MMM-Tasmota", {
                         headerRow.appendChild(switchth);
                     table.appendChild(headerRow);
                     topicWrapper.appendChild(table);
-                    if (this.tasmotaData.tele[topic].SENSOR && this.config.showPowerStats) {
+                    if (this.tasmotaData.tele[topic].SENSOR && device.showPowerStats) {
                         var dataArray = this.prepareData(topic);
                         dataArray.forEach(row => {
                             var dataRow = document.createElement("tr");
@@ -213,7 +214,7 @@ Module.register("MMM-Tasmota", {
                 datasets: [{
                     data: graphData.current,
                     backgroundColor: 'rgba(255, 0, 0, 0.3)',
-                    borderColor: 'red',
+                    borderColor: device.chartColor || 'red',
                     borderWidth: 2,
                     pointRadius: 0,
                     spanGaps: false,
@@ -241,6 +242,7 @@ Module.register("MMM-Tasmota", {
                     }],
                     xAxes: [{
                         type: "time",
+                        spanGaps: false,
                         time: {
                             unit: 'hour',
                             //unitStepSize: 0.25,

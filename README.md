@@ -1,6 +1,6 @@
 # MMM-Tasmota
 
-![Alt text](/img/readme/example.png "A preview of the MMM-Bring module.")
+![alt text](tasmotasample.jpg "A preview of the MMM-Tasmota module")
 
 This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/) that displays controls and (optional) power stats of your Tasmota devices. The module needs an MQTT broker.
 
@@ -30,7 +30,6 @@ Add this configuration to `config.js`
     config: {
         host: 'http://localhost:8033',
         updateInterval: 60 * 1000,
-        showPowerStats: false,
         devices: [
             {
               //YOUR DEVICE HERE, see "Device config" instructions below
@@ -48,7 +47,6 @@ Here is the configurable part of the module
  -------------------- | --------------- | ----------- 
  `host`               | string          | **Required** Address of your MQTT broker including the port number.<br>*Default value:* `'http://localhost:8033'` 
  `devices`            | array of objects| **Required** Devices array (see options below). 
- `showPowerStats`     | boolean         | Show or hide power stats of your Tasmota device<br> *Default value:* `false` 
  `updateInterval`     | integer         | Update interval for chart and values. <br> *Default value:*  `60*1000`
  `chartxAxisFormat`   | string          | Moment.js format of the x Axis labels. See Moment.js docs for formatting options<br>*Default value: `'dd HH:mm'`
  `topicWidth`         | integer         | width of the topic window(s). The container design is flexible so you can choose to put topics in one line.<br> *Default value:* `400`
@@ -62,8 +60,10 @@ The configs to use for every device:
 |--------------------- |-----------------|-----------
 | `topic`              | string          | **Required** Topic description as sent by the device.
 | `name`               | string          | **Optional** Shown name of the device.
+| `showPowerStats`     | boolean         | **Optional** Show or hide power stats of your Tasmota device<br> *Default value:* `false` 
 | `teleInterval`       | integer         | **Optional** Telemetry Interval (in seconds) as set in the devices config. Only for calculation purposes!<br>*Default value:* `300`
-| `chartInterval`      | integer         | The interval (in hours) shown in the chart.<br>*Default value:* `24`
+| `chartInterval`      | integer         | **Optional** The interval (in hours) shown in the chart.<br>*Default value:* `24`
+| `chartColor`         | string          | **Optional** Color of the chart<br> *Default value:* `red`
 
 
 ## Updating
