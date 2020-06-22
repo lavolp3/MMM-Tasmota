@@ -74,15 +74,15 @@ module.exports = NodeHelper.create({
 
         client.on('message', function (topic, message) {
             // message is Buffer
-            self.log('Received message from: ' + topic);
-            self.parseData(message.toString());
+            var msgStr = message.toString();
+            self.log('Received message from ' + topic + ': ' + msgStr);
+            self.parseData(msgStr);
             //client.end();
         });
     },
 
     parseData: function(msg) {
         var tData = this.tasmotaData;
-        //this.log(msg);
         var strArray = msg.split(" ");
         if (strArray[2]) {
             var cmdString = strArray[2].split("/");
@@ -107,6 +107,7 @@ module.exports = NodeHelper.create({
                     "Current": 0.016,
                     "Average": 1.58
                 }*/
+            this.log("Processed JSON data: " + JSON.stringify(jsonData));
             if (!tData.hasOwnProperty(prefix)) { tData[prefix] = {}; }
             if (!tData[prefix].hasOwnProperty(topic)) { tData[prefix][topic] = {};}
             if (!tData[prefix][topic].hasOwnProperty(cmd)) {
