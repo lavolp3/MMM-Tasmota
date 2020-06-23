@@ -135,12 +135,16 @@ module.exports = NodeHelper.create({
                     ]);
                     tData[prefix][topic][cmd] = this.filterData(tData[prefix][topic][cmd]);
                 }
+            } else {
+                this.log("Received data is not of SENSOR or STATE format: " + msg)
             }
             //this.log(tData);
             jsonfile.writeFile(file, tData, function (err) {
                 if (err) console.error(err);
             });
             this.tasmotaData = tData;
+        } else {
+            this.log("Received data is not of known SENSOR or STATE format: " + msg)
         }
     },
 
