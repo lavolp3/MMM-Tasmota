@@ -84,7 +84,8 @@ module.exports = NodeHelper.create({
     parseData: function(msg) {
         var tData = this.tasmotaData;
         var strArray = msg.split(" ");
-        if (strArray[2]) {
+        this.log("Topic: " + strArray[2] + ", json: " + strArray[4]);
+        if (strArray[2] && strArray[4]) {
             var cmdString = strArray[2].split("/");
             var len = cmdString.length;
             var prefix = cmdString[0];

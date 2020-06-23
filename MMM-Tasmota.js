@@ -92,7 +92,7 @@ Module.register("MMM-Tasmota", {
                             var header = document.createElement("th");
                             header.className = "topic-data-header";
                             header.colSpan = 2;
-                            header.innerHTML = device.name;
+                            header.innerHTML = device.name || device.topic;
                             var switchth = document.createElement("th");
                             switchth.className = "topic-data-switch";
                             switchth.colSpan = 2;
