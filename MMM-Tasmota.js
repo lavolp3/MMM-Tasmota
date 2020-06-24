@@ -25,7 +25,8 @@ Module.register("MMM-Tasmota", {
         subPrefix: 'stat/',
         pubPrefix: 'cmnd/',
         chartxAxisFormat: "dd HH:mm",
-        topicWidth: 400,
+        topicWidth: 450,
+        showUnits: true,
         debug: false
     },
 
@@ -162,16 +163,16 @@ Module.register("MMM-Tasmota", {
                 "Last update": moment(lastData[0]).format(this.config.chartxAxisFormat)
             },
             {
-                "Power": lastData[1].toFixed(0) + " W",
-                "Voltage": lastData[2] + " V",
+                "Power": lastData[1].toFixed(0) + (this.config.showUnits) ? " W" : "",
+                "Voltage": lastData[2] + (this.config.showUnits) ? " kWh" : "",
             },
             {
-                "Today": lastData[3].toFixed(2) + " kWh",
-                "Total": lastData[4].toFixed(1) + " kWh",
+                "Today": lastData[3].toFixed(2) + (this.config.showUnits) ? " kWh" : "",
+                "Total": lastData[4].toFixed(1) + (this.config.showUnits) ? " kWh" : "",
             },
             {
-                "Yesterday": lastData[5].toFixed(2) + " kWh",
-                "Daily Avg": lastData[6].toFixed(2) + " kWh",
+                "Yesterday": lastData[5].toFixed(2) + (this.config.showUnits) ? " kWh" : "",
+                "Daily Avg": lastData[6].toFixed(2) + (this.config.showUnits) ? " kWh" : "",
             }
         ];
     },
@@ -205,6 +206,29 @@ Module.register("MMM-Tasmota", {
 
 
     drawGraph: function(canvas, device) {
+        switch (device.chartColor) {
+            case 'blue':
+                var lineColor = 'blue';
+                var bgColor = 'rgba(0, 0, 250, 0.3)';
+                break;
+            case 'green':
+                var lineColor = 'green';
+                var bgColor = 'rgba(0, 250, 0, 0.3)';
+                break;
+            case 'yellow':
+                var lineColor = 'yellow';
+                var bgColor = 'rgba(250, 250, 0, 0.3)';
+                break;
+            case 'white':
+                var lineColor = '#dddddd';
+                var bgColor = 'rgba(240, 240, 240, 0.3)';
+                break;
+            case 'red':
+            default:
+                this.log(`Color code for ${device.name} graph not recognized!`)
+                var lineColor = 'red' 
+                var bgColor = 'rgba(250, 0, 0, 0.3)';    
+        }
         var graphData = this.parseGraphData(device);
         var ctx = canvas.getContext('2d');
         var topicChart = new Chart(ctx, {
@@ -213,8 +237,8 @@ Module.register("MMM-Tasmota", {
                 labels: graphData.times,
                 datasets: [{
                     data: graphData.current,
-                    backgroundColor: 'rgba(255, 0, 0, 0.3)',
-                    borderColor: device.chartColor || 'red',
+                    backgroundColor: bgColor,
+                    borderColor: lineColor,
                     borderWidth: 2,
                     pointRadius: 0,
                     spanGaps: false,

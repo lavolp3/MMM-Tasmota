@@ -83,15 +83,16 @@ module.exports = NodeHelper.create({
 
     parseData: function(msg) {
         var tData = this.tasmotaData;
-        var strArray = msg.split(" ");
-        this.log("Topic: " + strArray[2] + ", json: " + strArray[4]);
-        if (strArray[2] && strArray[4]) {
-            var cmdString = strArray[2].split("/");
+        var [time,,topic,, ...json] = msg.split(" ");
+        json = json.join(" ");
+        this.log("Topic: " + topic + ", json: " + json);
+        if (topic && json) {
+            var cmdString = topic.split("/");
             var len = cmdString.length;
             var prefix = cmdString[0];
             var topic = cmdString[len-2];
             var cmd = cmdString[len-1];
-            var jsonData = JSON.parse(strArray[4]);
+            var jsonData = JSON.parse(json);
                 /*{
                 "Time": "2020-05-09T22:41:48",
                 "ENERGY": {
