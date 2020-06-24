@@ -164,7 +164,7 @@ Module.register("MMM-Tasmota", {
             },
             {
                 "Power": lastData[1].toFixed(0) + (this.config.showUnits) ? " W" : "",
-                "Voltage": lastData[2] + (this.config.showUnits) ? " kWh" : "",
+                "Voltage": lastData[2] + (this.config.showUnits) ? " V" : "",
             },
             {
                 "Today": lastData[3].toFixed(2) + (this.config.showUnits) ? " kWh" : "",
