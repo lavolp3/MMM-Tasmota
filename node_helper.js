@@ -92,23 +92,29 @@ module.exports = NodeHelper.create({
             var prefix = cmdString[0];
             var topic = cmdString[len-2];
             var cmd = cmdString[len-1];
-            var jsonData = JSON.parse(json);
-                /*{
-                "Time": "2020-05-09T22:41:48",
-                "ENERGY": {
-                    "TotalStartTime": "2020-02-26T18:23:29",
-                    "Total": 115.352,
-                    "Yesterday": 0.512,
-                    "Today": 1.871,
-                    "Period": 0,
-                    "Power": 1,
-                    "ApparentPower": 4,
-                    "ReactivePower": 4,
-                    "Factor": 0.28,
-                    "Voltage": 226,
-                    "Current": 0.016,
-                    "Average": 1.58
-                }*/
+            try {
+                var jsonData = JSON.parse(json);
+            } catch (e) {
+                this.log("Invalid JSON format in MQTT data");
+                this.log(e);
+                var jsonData = {};
+            };
+            /*{
+            "Time": "2020-05-09T22:41:48",
+            "ENERGY": {
+                "TotalStartTime": "2020-02-26T18:23:29",
+                "Total": 115.352,
+                "Yesterday": 0.512,
+                "Today": 1.871,
+                "Period": 0,
+                "Power": 1,
+                "ApparentPower": 4,
+                "ReactivePower": 4,
+                "Factor": 0.28,
+                "Voltage": 226,
+                "Current": 0.016,
+                "Average": 1.58
+            }*/
             this.log("Processed JSON data: " + JSON.stringify(jsonData));
             if (!tData.hasOwnProperty(prefix)) { tData[prefix] = {}; }
             if (!tData[prefix].hasOwnProperty(topic)) { tData[prefix][topic] = {};}
@@ -144,9 +150,9 @@ module.exports = NodeHelper.create({
             jsonfile.writeFile(file, tData, function (err) {
                 if (err) console.error(err);
             });
-            this.tasmotaData = tData;
+            this.tasmotaData = tData;    
         } else {
-            this.log("Received data is not of known SENSOR or STATE format: " + msg)
+            this.log("Received MQTT data is not of known format: " + msg)
         }
     },
 

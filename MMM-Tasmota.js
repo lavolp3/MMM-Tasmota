@@ -47,12 +47,12 @@ Module.register("MMM-Tasmota", {
     },
 
     // Load translations files
-    /*getTranslations: function() {
+    getTranslations: function() {
         return {
             en: "translations/en.json",
-            es: "translations/es.json"
+            de: "translations/de.json"
         };
-    },*/
+    },
 
 
     start: function() {
@@ -90,13 +90,13 @@ Module.register("MMM-Tasmota", {
                     var table = document.createElement("table");
                     table.className = "topic-data small";
                         var headerRow = document.createElement("tr");
-                            var header = document.createElement("th");
-                            header.className = "topic-data-header";
-                            header.colSpan = 2;
+                            var header = document.createElement("td");
+                            header.className = "topic-data-header medium bold";
+                            header.colSpan = "3";
                             header.innerHTML = device.name || device.topic;
-                            var switchth = document.createElement("th");
+                            var switchth = document.createElement("td");
                             switchth.className = "topic-data-switch";
-                            switchth.colSpan = 2;
+                            switchth.colSpan = "3";
                                 var label = document.createElement("label");
                                 label.className = "tasmota-switch";
                                 label.id = "switch-" + topic;
@@ -114,7 +114,6 @@ Module.register("MMM-Tasmota", {
                         headerRow.appendChild(header);
                         headerRow.appendChild(switchth);
                     table.appendChild(headerRow);
-                    topicWrapper.appendChild(table);
                     if (this.tasmotaData.tele[topic].SENSOR && device.showPowerStats) {
                         var dataArray = this.prepareData(topic);
                         dataArray.forEach(row => {
@@ -123,12 +122,23 @@ Module.register("MMM-Tasmota", {
                                 for (var key in row) {
                                     var dataCell = document.createElement("td");
                                     dataCell.className = "tasmota-data-td " + key;
-                                    dataCell.innerHTML = key;
+                                    if (key == "LAST_UPDATE") dataCell.colSpan = "3";
+                                    dataCell.innerHTML = this.translate(key);
                                     var valueCell = document.createElement("td");
-                                    valueCell.className = "tasmota-value-td " + key;
-                                    valueCell.innerHTML = row[key];
+                                    valueCell.className = "tasmota-value-td bold " + key;
+                                    if (key == "LAST_UPDATE") {
+                                        valueCell.colSpan = "3";
+                                        valueCell.style.textAlign = "center";
+                                    }
+                                    valueCell.innerHTML = row[key].value;
                                     dataRow.appendChild(dataCell);
                                     dataRow.appendChild(valueCell);
+                                    if (key != "LAST_UPDATE") {
+                                        var unitCell = document.createElement("td");
+                                        unitCell.className = "xsmall tasmota-unit-td " + key;
+                                        unitCell.innerHTML = row[key].unit;
+                                        dataRow.appendChild(unitCell);
+                                    }
                                 }
                             table.appendChild(dataRow);
                         });
@@ -137,8 +147,9 @@ Module.register("MMM-Tasmota", {
                         topicGraph.height = 200;
                         topicGraph.className = "tasmota-graph";
                         this.drawGraph(topicGraph, device);
-                        topicWrapper.appendChild(topicGraph);
-                    }                    
+                    }
+                    topicWrapper.appendChild(table);
+                    if (topicGraph) topicWrapper.appendChild(topicGraph);
                 wrapper.appendChild(topicWrapper);
             });
         }
@@ -160,21 +171,52 @@ Module.register("MMM-Tasmota", {
         */
         return [
             {
-                "Last update": moment(lastData[0]).format(this.config.chartxAxisFormat)
+                "LAST_UPDATE": {
+                    value: moment(lastData[0]).format(this.config.chartxAxisFormat),
+                    unit: ""
+                }
             },
             {
-                "Power": lastData[1].toFixed(0) + (this.config.showUnits) ? " W" : "",
-                "Voltage": lastData[2] + (this.config.showUnits) ? " V" : "",
+                "POWER": {
+                    value: this.formatNumber(lastData[1], 4),
+                    unit: "W"
+                },
+                "VOLT": {
+                    value: this.formatNumber(lastData[2], 4),
+                    unit: "V"
+                }
             },
             {
-                "Today": lastData[3].toFixed(2) + (this.config.showUnits) ? " kWh" : "",
-                "Total": lastData[4].toFixed(1) + (this.config.showUnits) ? " kWh" : "",
+                "TODAY": {
+                    value: this.formatNumber(lastData[3], 4),
+                    unit: "kWh"
+                },
+                "TOTAL": {
+                    value: this.formatNumber(lastData[4], 4),
+                    unit: "kWh"
+                }
             },
             {
-                "Yesterday": lastData[5].toFixed(2) + (this.config.showUnits) ? " kWh" : "",
-                "Daily Avg": lastData[6].toFixed(2) + (this.config.showUnits) ? " kWh" : "",
+                "YDAY": {
+                    value: this.formatNumber(lastData[5], 4),
+                    unit: "kWh"
+                },
+                "DAILY_AVG": {
+                    value: this.formatNumber(lastData[6], 4),
+                    unit: "kWh"
+                }
             }
         ];
+    },
+    
+    formatNumber: function (number, dec) {
+        if (number >= 100) {
+            return number.toFixed(0);
+        } else if (number >= 10) {
+            return number.toFixed(1);
+        } else {
+            return number.toFixed(2);
+        }
     },
 
     toggleSwitch: function(topic) {

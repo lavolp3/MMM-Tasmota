@@ -1,4 +1,9 @@
 {
-  "TITLE": "Title",
-  "UPDATE": "Update"
+    "LAST_UPDATE": "Last update",
+    "POWER": "Power",
+    "VOLT": "Voltage",
+    "TODAY": "Today",
+    "YDAY": "Yesterday",
+    "DAILY_AVG": "Daily \u00D8",
+    "TOTAL": "Total"
 }
