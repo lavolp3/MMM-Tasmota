@@ -71,8 +71,8 @@ Module.register("MMM-Tasmota", {
             this.tasmotaData = payload;
             if (!this.loaded) {
                 this.loaded = true;
-                this.updateDom();
             }
+            this.updateDom();
         }
     },
 
@@ -269,9 +269,12 @@ Module.register("MMM-Tasmota", {
                 var bgColor = 'rgba(240, 240, 240, 0.3)';
                 break;
             case 'red':
+                var lineColor = 'red'; 
+                var bgColor = 'rgba(250, 0, 0, 0.3)';
+                break;
             default:
                 this.log(`Color code for ${device.name} graph not recognized!`)
-                var lineColor = 'red' 
+                var lineColor = 'red';
                 var bgColor = 'rgba(250, 0, 0, 0.3)';    
         }
         var graphData = this.parseGraphData(device);
