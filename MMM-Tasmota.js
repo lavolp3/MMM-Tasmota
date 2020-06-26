@@ -114,6 +114,9 @@ Module.register("MMM-Tasmota", {
                         headerRow.appendChild(header);
                         headerRow.appendChild(switchth);
                     table.appendChild(headerRow);
+                        var spacer = document.createElement("tr");
+                        spacer.style.height = "10px";
+                    table.appendChild(spacer);
                     if (this.tasmotaData.tele[topic].SENSOR && device.showPowerStats) {
                         var dataArray = this.prepareData(topic);
                         dataArray.forEach(row => {
